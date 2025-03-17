@@ -21,7 +21,7 @@ import { PetPostRoutes } from "./pet-post/routes";
 */
 export class AppRoutes {
 
-    static get routes ():Router {
+    static get routes(): Router {
 
         const router = Router();
 

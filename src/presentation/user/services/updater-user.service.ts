@@ -4,13 +4,13 @@ import { CustomError } from "../../../domain";
 
 export class UpdaterUserService {
 
-    async execute (id: string, options:{[value: string]: any}) {
-        
-        try {
-            
-            const userToUpdater = await UserModel.findOneBy({id: id})
+    async execute(id: string, options: { [value: string]: any }) {
 
-            if(userToUpdater) {
+        try {
+
+            const userToUpdater = await UserModel.findOneBy({ id: id })
+
+            if (userToUpdater) {
 
                 userToUpdater.email = options.email;
                 userToUpdater.name = options.name;
@@ -29,5 +29,5 @@ export class UpdaterUserService {
         }
 
     }
-    
+
 }

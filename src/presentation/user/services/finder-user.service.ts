@@ -8,12 +8,12 @@ export class FinderOneUserService {
         try {
 
             const user = await UserModel.find({
-                select: ['email','name', 'password', 'rol', 'created_at', 'id'],
+                select: ['email', 'name', 'password', 'rol', 'created_at', 'id'],
                 where: {
                     id: userID
                 }
             });
-            
+
             return user;
 
         } catch (error) {

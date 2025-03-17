@@ -3,11 +3,11 @@ import { CustomError } from "../../../domain";
 
 export class EliminatorUserService {
 
-    async execute (id: string) {
-        
+    async execute(id: string) {
+
         try {
-            
-            const user = await UserModel.findBy({id: id});
+
+            const user = await UserModel.findBy({ id: id });
             return await UserModel.remove(user);
 
         } catch (error) {
@@ -15,5 +15,5 @@ export class EliminatorUserService {
         }
 
     }
-    
+
 }

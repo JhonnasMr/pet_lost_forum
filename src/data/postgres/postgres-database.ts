@@ -1,7 +1,6 @@
 import { DataSource } from "typeorm"
 
-import { PetPostModel } from "./models/pet-posts.model"
-import { UserModel } from "./models/user.model"
+import { PetPostModel, UserModel } from "../"
 
 /**
  * Interface that defines the options for starting the database.
@@ -37,7 +36,7 @@ export class PostgreDataBase {
 
     public dataSource: DataSource
 
-    constructor(options: Options){
+    constructor(options: Options) {
 
         this.dataSource = new DataSource({
             type: 'postgres',
@@ -66,7 +65,7 @@ export class PostgreDataBase {
      * ```
      */
 
-    async connect () {
+    async connect() {
 
         try {
             await this.dataSource.initialize()
@@ -74,7 +73,7 @@ export class PostgreDataBase {
         } catch (error) {
             console.error(error)
         }
-        
+
     }
 
 }

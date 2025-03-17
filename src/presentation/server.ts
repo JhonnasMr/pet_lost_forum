@@ -26,7 +26,7 @@ export class Server {
 
     constructor(options: Options) {
         this.port = options.port,
-        this.routes = options.routes
+            this.routes = options.routes
     }
 
     /**

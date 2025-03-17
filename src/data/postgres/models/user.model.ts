@@ -40,22 +40,22 @@ export class UserModel extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column('varchar', {length: 255, nullable: false})
+    @Column('varchar', { length: 255, nullable: false })
     name: string;
 
-    @Column('varchar', {length: 255, nullable: false})
+    @Column('varchar', { length: 255, nullable: false })
     email: string;
 
-    @Column('varchar', {length: 255, nullable: false})
+    @Column('varchar', { length: 255, nullable: false })
     password: string;
 
-    @Column('enum', {enum: Rol, default: Rol.user})
+    @Column('enum', { enum: Rol, default: Rol.user })
     rol: Rol;
 
-    @Column('boolean', {default: true})
+    @Column('boolean', { default: true })
     status: boolean;
 
     @CreateDateColumn()
     created_at: Date;
-    
+
 }

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { CustomError, UpdateUserDto, CreateUserDto} from "../../domain";
+import { CustomError, UpdateUserDto, CreateUserDto } from "../../domain";
 import {
     FinderUsersService,
     EliminatorUserService,

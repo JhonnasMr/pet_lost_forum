@@ -1,10 +1,10 @@
 import 'reflect-metadata'
-import { AppRoutes } from "./presentation/routes"; 
+import { AppRoutes } from "./presentation/routes";
 import { Server } from "./presentation/server";
 import { PostgreDataBase } from './data/postgres/postgres-database';
 import { envs } from "./config/envs";
 
-async function Main () {
+async function Main() {
 
     const postgresDataBase = new PostgreDataBase({
         host: envs.PGHOST,
@@ -16,7 +16,7 @@ async function Main () {
 
     await postgresDataBase.connect();
 
-    const server = new Server({port: envs.PORT, routes: AppRoutes.routes});
+    const server = new Server({ port: envs.PORT, routes: AppRoutes.routes });
 
     await server.start();
 

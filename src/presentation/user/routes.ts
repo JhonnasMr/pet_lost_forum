@@ -1,11 +1,13 @@
 import { Router } from "express";
 import { UserController } from "./controller";
-import { FinderUsersService,
-        EliminatorUserService,
-        FinderOneUserService,
-        LoginUserServices,
-        RegisterUserService,
-        UpdaterUserService } from "./services";
+import {
+    FinderUsersService,
+    EliminatorUserService,
+    FinderOneUserService,
+    LoginUserServices,
+    RegisterUserService,
+    UpdaterUserService
+} from "./services";
 
 /**
  * This class contains all sup routes that user routes needs,

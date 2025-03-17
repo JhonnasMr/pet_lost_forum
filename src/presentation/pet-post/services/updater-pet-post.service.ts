@@ -4,10 +4,10 @@ import { CustomError, UpdatePostDto } from "../../../domain";
 export class UpdatePetPostService {
 
     async execute(id: string, options: UpdatePostDto) {
-        
+
         try {
-            
-            const postToUpdater = await PetPostModel.findOneBy({id: id});
+
+            const postToUpdater = await PetPostModel.findOneBy({ id: id });
 
             if (postToUpdater) {
                 postToUpdater.description = options.description;
