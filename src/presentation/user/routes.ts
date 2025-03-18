@@ -35,17 +35,17 @@ export class UserRoutes {
 
         const route = Router();
 
-        route.get('/', userController.getAllUsers);
+        route.get('/', userController.allUsers);
 
-        route.get('/:id', userController.getOneUser);
+        route.get('/:id', userController.oneUser);
 
-        route.post('/login', userController.getLoginUser);
+        route.post('/login', userController.loginUser);
 
-        route.post('/register', userController.getRegisterUser);
+        route.post('/register', userController.registerUser);
 
-        route.patch('/:id', userController.getUpdateUser);
+        route.patch('/:id', userController.updateUser);
 
-        route.delete('/:id', userController.getDeleteUser);
+        route.delete('/:id', userController.deleteUser);
 
         return route;
 

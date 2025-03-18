@@ -28,10 +28,10 @@ export class UserController {
     constructor(
         private readonly finderUsers: FinderUsersService,
         private readonly finderOneUser: FinderOneUserService,
-        private readonly deleteUser: EliminatorUserService,
-        private readonly loginUser: LoginUserServices,
-        private readonly registerUser: RegisterUserService,
-        private readonly updateUser: UpdaterUserService
+        private readonly removeUser: EliminatorUserService,
+        private readonly loginOneUser: LoginUserServices,
+        private readonly registerOneUser: RegisterUserService,
+        private readonly updateOneUser: UpdaterUserService
 
         // ... 
     ) { }
@@ -51,49 +51,43 @@ export class UserController {
 
     }
 
-    getAllUsers = (req: Request, res: Response) => {
+    allUsers = (req: Request, res: Response) => {
         // completed 
         this.finderUsers.execute()
-            .then(result => {
-                return res.status(200).json({
-                    data: result
-                });
+            .then(data => {
+                return res.status(200).json(data);
             })
             .catch(err => {
                 this.handleError(err, res);
             })
     }
 
-    getOneUser = (req: Request, res: Response) => {
-        const userID = req.params.id;
-        this.finderOneUser.execute(userID)
-            .then(result => {
-                return res.status(200).json({
-                    data: result
-                });
+    oneUser = (req: Request, res: Response) => {
+        const { id } = req.params;
+        this.finderOneUser.execute(id)
+            .then(data => {
+                return res.status(200).json(data);
             })
             .catch(err => {
                 this.handleError(err, res);
             })
     }
 
-    getLoginUser = (req: Request, res: Response) => {
+    loginUser = (req: Request, res: Response) => {
         /**
          * Por el momento esto retorna solo un 
          * mensaje
          */
-        this.loginUser.execute()
-            .then(result => {
-                return res.status(501).json({
-                    message: result
-                });
+        this.loginOneUser.execute()
+            .then(data => {
+                return res.status(501).json(data);
             })
             .catch(err => {
                 this.handleError(err, res);
             })
     }
 
-    getRegisterUser = (req: Request, res: Response) => {
+    registerUser = (req: Request, res: Response) => {
 
         const [error, createUserDto] = CreateUserDto.execute(req.body);
 
@@ -103,11 +97,11 @@ export class UserController {
             })
         }
 
-        this.registerUser
+        this.registerOneUser
             .execute(createUserDto!)
-            .then(() => {
+            .then((data) => {
                 return res.status(200).json({
-                    message: 'user registered successfully!'
+                    message: data
                 });
             })
             .catch(err => {
@@ -115,9 +109,9 @@ export class UserController {
             })
     }
 
-    getUpdateUser = (req: Request, res: Response) => {
+    updateUser = (req: Request, res: Response) => {
 
-        const userID = req.params.id;
+        const { id } = req.params;
         const [error, updateUserDto] = UpdateUserDto.execute(req.body);
 
         if (error) {
@@ -126,32 +120,26 @@ export class UserController {
             })
         }
 
-        this.updateUser
-            .execute(userID, updateUserDto!)
-            .then(() => {
+        this.updateOneUser
+            .execute(id, updateUserDto!)
+            .then((data) => {
                 return res.status(200).json({
-                    message: 'user updated successfully!'
+                    message: data
                 });
             })
             .catch(err => {
                 this.handleError(err, res);
             })
+
     }
 
-    getDeleteUser = (req: Request, res: Response) => {
-        /**
-         * Aqui falta agregar el DTO para validar datos y seguro para verificar si 
-         * el usuario es admin
-         */
+    deleteUser = (req: Request, res: Response) => {
 
-        const userID = req.params.id;
+        const { id } = req.params;
 
-        this.deleteUser.execute(userID)
-            .then(result => {
-                return res.status(200).json({
-                    message: `user with id : ${userID} eliminated successfully!`,
-                    data: result
-                })
+        this.removeUser.execute(id)
+            .then(data => {
+                return res.status(200).json(data);
             })
             .catch(err => {
                 this.handleError(err, res);

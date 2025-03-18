@@ -6,26 +6,32 @@ export class UpdaterUserService {
 
     async execute(id: string, options: { [value: string]: any }) {
 
+        const user = await UserModel.findOne({
+            select: ['email', 'name', 'password', 'rol', 'created_at', 'id'],
+            where: {
+                id: id,
+                status: true
+            }
+        })
+
+        if (!user) {
+            throw CustomError.notFound('user dont exist');
+        }
+
+        user.email = options.email;
+        user.name = options.name;
+        user.password = options.password;
+        user.rol = options.rol;
+
         try {
 
-            const userToUpdater = await UserModel.findOneBy({ id: id })
-
-            if (userToUpdater) {
-
-                userToUpdater.email = options.email;
-                userToUpdater.name = options.name;
-                userToUpdater.password = options.password;
-                userToUpdater.rol = options.rol;
-
-                userToUpdater.save();
-
-                return 'User updated successfully!'
-
-            }
-
+            await user.save();
+            return 'user updated successfully!';
 
         } catch (error) {
-            throw CustomError.badRequest('bad request');
+
+            throw CustomError.internalServer('something went wrong!');
+            
         }
 
     }

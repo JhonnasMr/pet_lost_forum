@@ -5,19 +5,25 @@ export class DeletePetPostService {
 
     async execute(id: string) {
 
+        const postToRemove = await PetPostModel.findOne({
+            select: ['created_at', 'description', 'hasFounded', 'id', 'user_id', 'img_url', 'pet_name'],
+            where: {
+                id: id,
+            }
+        });
+
+        if (!postToRemove) {
+            throw CustomError.notFound('post doesnt exist!');
+        }
+
         try {
 
-            const postToRemove = await PetPostModel.findBy({ id: id });
+            PetPostModel.remove(postToRemove);
 
-            if (postToRemove) {
-                PetPostModel.remove(postToRemove);
-                return postToRemove;
-            }
-
-            return;
+            return postToRemove;
 
         } catch (error) {
-            throw new CustomError('bad request', 400);
+            throw CustomError.internalServer('something went wrong!');
         }
 
     }

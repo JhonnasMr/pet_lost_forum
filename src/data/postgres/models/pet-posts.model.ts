@@ -44,7 +44,7 @@ export class PetPostModel extends BaseEntity {
    @PrimaryGeneratedColumn('uuid')
    id: string
 
-   @Column('uuid')
+   @Column('uuid', { unique: true, nullable: false })
    user_id: string
 
    @Column('varchar', { length: 255, nullable: false })

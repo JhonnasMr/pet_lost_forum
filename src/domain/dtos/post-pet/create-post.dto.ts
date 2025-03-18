@@ -19,8 +19,10 @@ export class CreatePostDto {
         if (!pet_name) return ['pet_name is rerquired'];
         if (!img_url) return ['img_url is rerquired'];
 
+        if (!regularExpresion.uuid.test(user_id)) return ['user_id format invalid 😒']
         if (!regularExpresion.url.test(img_url)) return ['img_url format invalid 😒'];
         if (!regularExpresion.noSimbol25char.test(pet_name)) return ['format pet name invalid 😒'];
+        if (!regularExpresion.noSimbol240char.test(description)) return ['format description invalid 😒'];
 
         return [undefined, new CreatePostDto(user_id, description, pet_name, img_url)];
 

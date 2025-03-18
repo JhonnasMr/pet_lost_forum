@@ -53,12 +53,12 @@ export class PetPostController {
 
     getOnePetPost = (req: Request, res: Response) => {
 
-        const id = req.params.id;
-        this.finderPetPostService.execute(id)
+        const { id } = req.params;
+
+        this.finderPetPostService
+            .execute(id)
             .then(data => {
-                return res.status(200).json({
-                    data: data
-                });
+                return res.status(200).json(data);
             }).catch((err) => {
                 this.handleError(err, res);
             })
@@ -69,9 +69,7 @@ export class PetPostController {
         this.finderPetPostsService
             .execute()
             .then((data) => {
-                return res.status(200).json({
-                    data: data
-                })
+                return res.status(200).json(data);
             })
             .catch((err) => {
                 this.handleError(err, res);
@@ -89,10 +87,8 @@ export class PetPostController {
         }
 
         this.creatorPetPostService.execute(createPostDto!)
-            .then(() => {
-                return res.status(201).json({
-                    message: 'new Post created successfully!',
-                });
+            .then((data) => {
+                return res.status(201).json({ message: data });
             })
             .catch((err) => {
                 this.handleError(err, res);
@@ -101,21 +97,12 @@ export class PetPostController {
 
     getDeletePetPost = (req: Request, res: Response) => {
 
-        const paramsID = req.params.id;
-        this.deletePetPostService.execute(paramsID)
+        const { id } = req.params;
+
+        this.deletePetPostService
+            .execute(id)
             .then(data => {
-
-                if (!data?.length) {
-                    return res.status(404).json({
-                        message: 'id not found'
-                    })
-                }
-
-                return res.status(200).json({
-                    message: `Post with id: ${paramsID} eliminated successfully!`,
-                    data: data
-                });
-
+                return res.status(200).json(data);
             })
             .catch((err) => {
                 this.handleError(err, res);
@@ -124,7 +111,7 @@ export class PetPostController {
 
     getUpdatePetPost = (req: Request, res: Response) => {
 
-        const paramsID = req.params.id;
+        const { id } = req.params;
         const [err, updatePostDto] = UpdatePostDto.execute(req.body);
 
         if (err) {
@@ -133,15 +120,16 @@ export class PetPostController {
             })
         }
 
-        this.updatePetPostService.execute(paramsID, updatePostDto!)
+        this.updatePetPostService
+            .execute(id, updatePostDto!)
             .then(() => {
                 return res.status(200).json({
-                    message: 'post with id: ' + paramsID + " updated successfully",
+                    message: `post updated successfully`,
                 });
             })
             .catch((err) => {
                 this.handleError(err, res);
-            })
+            });
     }
 
     getApproveToPost = (req: Request, res: Response) => {

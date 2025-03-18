@@ -5,20 +5,19 @@ export class FinderOneUserService {
 
     async execute(userID: string) {
 
-        try {
+        const user = await UserModel.find({
+            select: ['email', 'name', 'password', 'rol', 'created_at', 'id'],
+            where: {
+                status: true,
+                id: userID
+            }
+        });
 
-            const user = await UserModel.find({
-                select: ['email', 'name', 'password', 'rol', 'created_at', 'id'],
-                where: {
-                    id: userID
-                }
-            });
-
-            return user;
-
-        } catch (error) {
-            throw CustomError.notFound('user not found')
+        if (!user) {
+            return CustomError.notFound('user not found');
         }
+
+        return user;
 
     }
 

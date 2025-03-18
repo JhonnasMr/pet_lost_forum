@@ -14,11 +14,13 @@ export class RegisterUserService {
 
         try {
 
-            return await newUser.save();
+            await newUser.save();
+
+            return 'user created successfully'
 
         } catch (error) {
 
-            throw CustomError.badRequest('bad request');
+            throw CustomError.badRequest('user already exist');
 
         }
 

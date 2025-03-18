@@ -5,13 +5,25 @@ export class EliminatorUserService {
 
     async execute(id: string) {
 
+        const user = await UserModel.findOne({
+            select: ['email', 'name', 'password', 'rol', 'created_at', 'id'],
+            where: {
+                id: id
+            }
+        });
+
+        if(!user) {
+            throw CustomError.notFound('user dont exist!');
+        }
+
         try {
 
-            const user = await UserModel.findBy({ id: id });
-            return await UserModel.remove(user);
+            await UserModel.remove(user);
+
+            return user
 
         } catch (error) {
-            throw CustomError.notFound('user not found');
+            return CustomError.internalServer('something went wrong!');
         }
 
     }

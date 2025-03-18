@@ -1,5 +1,5 @@
 
-import { Rol, UserModel } from "../../../data";
+import { UserModel } from "../../../data";
 import { CustomError } from "../../../domain";
 
 export class FinderUsersService {
@@ -8,17 +8,19 @@ export class FinderUsersService {
 
         try {
 
-            const allAdmindUsers = await UserModel.find({
+            const users = await UserModel.find({
                 select: ['email', 'name', 'id', 'password', 'rol', 'created_at'],
                 where: {
-                    rol: Rol.admin
+                    status: true
                 }
             });
 
-            return allAdmindUsers;
+            if (!users) return 'no users'
+
+            return users;
 
         } catch (error) {
-            throw CustomError.notFound('users not found');
+            throw CustomError.internalServer('something went wrong!');
         }
     }
 

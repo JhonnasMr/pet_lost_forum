@@ -21,6 +21,7 @@ export class CreatorPetPostService {
     async execute(options: CreatePostDto) {
 
         const petPostModel = new PetPostModel();
+
         petPostModel.user_id = options.user_id;
         petPostModel.pet_name = options.pet_name;
         petPostModel.description = options.description;
@@ -28,11 +29,12 @@ export class CreatorPetPostService {
 
         try {
 
-            petPostModel.save();
+            await petPostModel.save();
+            return 'post created successfully!'
 
         } catch (error) {
 
-            throw CustomError.badRequest('bad request');
+            throw CustomError.badRequest('post exist');
 
         }
     }
