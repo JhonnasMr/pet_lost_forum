@@ -23,6 +23,7 @@ export class UpdatePostDto {
         if (hasFounded !== 'true' && hasFounded !== 'false') return ['hasFounded mmust be a boolean'];
         if (!regularExpresion.url.test(img_url)) return ['img_url format invalid 😒'];
         if (!regularExpresion.uuid.test(user_id)) return ['user_id format invalid 😒'];
+        if (!regularExpresion.noSimbol25char.test(pet_name)) return ['format pet name invalid 😒'];
 
         return [undefined, new UpdatePostDto(
             user_id,

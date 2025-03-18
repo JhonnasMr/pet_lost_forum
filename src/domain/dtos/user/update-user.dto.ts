@@ -21,6 +21,7 @@ export class UpdateUserDto {
 
         if (!regularExpresion.email.test(email)) return ['email format invalid'];
         if (!regularExpresion.password.test(password)) return ['password format invalid'];
+        if (!regularExpresion.noSimbol25char.test(name)) return ['format name invalid 😒'];
 
         return [undefined, new UpdateUserDto(
             email.trim().toLowerCase(),

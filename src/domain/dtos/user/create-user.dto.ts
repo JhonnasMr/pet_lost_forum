@@ -21,6 +21,8 @@ export class CreateUserDto {
 
         if (!regularExpresion.email.test(email)) return ['email format invalid 😒'];
         if (!regularExpresion.password.test(password)) return ['passwordd format invalid 😒'];
+        if (!regularExpresion.noSimbol25char.test(name)) return ['format name invalid 😒'];
+
 
         return [undefined, new CreateUserDto(
             name.trim().toLowerCase(),

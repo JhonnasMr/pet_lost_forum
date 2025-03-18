@@ -43,7 +43,7 @@ export class UserModel extends BaseEntity {
     @Column('varchar', { length: 255, nullable: false })
     name: string;
 
-    @Column('varchar', { length: 255, nullable: false })
+    @Column('varchar', { length: 255, nullable: false, unique: true })
     email: string;
 
     @Column('varchar', { length: 255, nullable: false })
