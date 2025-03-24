@@ -11,7 +11,8 @@
     }
  */
 
-import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { UserModel } from './user.model';
 
 /**
  * enum for PetPsst status.
@@ -44,8 +45,8 @@ export class PetPostModel extends BaseEntity {
    @PrimaryGeneratedColumn('uuid')
    id: string
 
-   @Column('uuid', { unique: true, nullable: false })
-   user_id: string
+   @ManyToOne(() => UserModel, (userModel) => userModel.petPostModel)
+   userModel: UserModel
 
    @Column('varchar', { length: 255, nullable: false })
    pet_name: string
