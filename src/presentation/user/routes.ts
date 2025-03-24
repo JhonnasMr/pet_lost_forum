@@ -35,13 +35,15 @@ export class UserRoutes {
 
         const route = Router();
 
-        route.get('/', userController.allUsers);
-
-        route.get('/:id', userController.oneUser);
-
         route.post('/login', userController.loginUser);
 
         route.post('/register', userController.registerUser);
+
+        // route.get('/auth-register/:token') //TODO: aqui seria bueno implementar el envio de email para practicar.
+
+        route.get('/', userController.allUsers);
+
+        route.get('/:id', userController.oneUser);
 
         route.patch('/:id', userController.updateUser);
 

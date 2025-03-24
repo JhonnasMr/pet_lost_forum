@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { CustomError, UpdateUserDto, CreateUserDto } from "../../domain";
+import { CustomError, UpdateUserDto, CreateUserDto, LoginUserDto } from "../../domain";
 import {
     FinderUsersService,
     EliminatorUserService,
@@ -8,6 +8,7 @@ import {
     RegisterUserService,
     UpdaterUserService
 } from "./services";
+import { envs } from "../../config";
 
 /**
  * This class contains all methods who are in charge of aplication logic part
@@ -74,13 +75,24 @@ export class UserController {
     }
 
     loginUser = (req: Request, res: Response) => {
-        /**
-         * Por el momento esto retorna solo un 
-         * mensaje
-         */
-        this.loginOneUser.execute()
+
+        const [error, loginUsrDto] = LoginUserDto.execute(req.body);
+
+        if (error) {
+            return res.status(422).json({
+                message: error
+            })
+        }
+
+        this.loginOneUser.execute(loginUsrDto!)
             .then(data => {
-                return res.status(501).json(data);
+                res.cookie('token', data.token, {
+                    httpOnly: true, // Esto lo que hace es que el token no se pueda leer desde el lado del cliente mediante javascript
+                    secure: envs.NODE_ENV === 'production', // Esto es para que solo se pueda enviar el token a través de https
+                    sameSite: 'strict', // Esto es para que el token solo se pueda enviar a través de la misma página
+                    maxAge: 1 * 60 * 60 * 1000 // Esto es para que el token expire en 1 horas
+                })
+                return res.status(200).json(data.user)
             })
             .catch(err => {
                 this.handleError(err, res);
@@ -88,7 +100,7 @@ export class UserController {
     }
 
     registerUser = (req: Request, res: Response) => {
-
+        //TODO: aqui falta inplementar l envio de el email que contiene la url
         const [error, createUserDto] = CreateUserDto.execute(req.body);
 
         if (error) {

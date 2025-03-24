@@ -1,5 +1,6 @@
 import { UserModel } from "../../../data";
 import { CustomError, CreateUserDto } from "../../../domain";
+import { Incripter } from "../../../config";
 
 export class RegisterUserService {
 
@@ -9,7 +10,7 @@ export class RegisterUserService {
 
         newUser.name = options.name;
         newUser.email = options.email;
-        newUser.password = options.password;
+        newUser.password = Incripter.hashCharacters(options.password);
         newUser.rol = options?.rol;
 
         try {

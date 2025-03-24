@@ -1,5 +1,6 @@
 import { UserModel } from "../../../data";
 import { CustomError } from "../../../domain";
+import { Incripter } from "../../../config";
 
 
 export class UpdaterUserService {
@@ -20,7 +21,7 @@ export class UpdaterUserService {
 
         user.email = options.email;
         user.name = options.name;
-        user.password = options.password;
+        user.password = Incripter.hashCharacters(options.password);
         user.rol = options.rol;
 
         try {
@@ -31,7 +32,7 @@ export class UpdaterUserService {
         } catch (error) {
 
             throw CustomError.internalServer('something went wrong!');
-            
+
         }
 
     }
