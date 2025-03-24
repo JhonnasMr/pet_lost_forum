@@ -13,7 +13,7 @@ export class FinderPetPostsService {
         });
 
         try {
-            
+
             if (!post.length) return CustomError.notFound('posts not found');
             return post;
 

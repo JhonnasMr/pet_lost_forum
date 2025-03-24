@@ -1,4 +1,5 @@
 import { regularExpresion } from "../../../config"
+import { PetPostModel } from "../../../data";
 
 
 export class CreatePostDto {

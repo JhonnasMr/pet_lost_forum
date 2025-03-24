@@ -60,6 +60,6 @@ export class UserModel extends BaseEntity {
     created_at: Date;
 
     @OneToMany(() => PetPostModel, (petPostModel) => petPostModel.userModel)
-    petPostModel: PetPostModel[];
+    petPosts: PetPostModel[];
 
 }

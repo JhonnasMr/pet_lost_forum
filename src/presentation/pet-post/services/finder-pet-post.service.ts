@@ -4,12 +4,12 @@ import { CustomError } from "../../../domain";
 export class FinderPetPostService {
 
     async execute(id: string) {
-        
+
         const post = await PetPostModel.find({
             select: ['created_at', 'description', 'hasFounded', 'id', 'user_id', 'img_url', 'pet_name'],
-            where: { 
+            where: {
                 id: id,
-                hasFounded: false 
+                hasFounded: false
             }
         });
 

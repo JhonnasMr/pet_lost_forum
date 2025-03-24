@@ -11,7 +11,7 @@
     }
  */
 
-import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { UserModel } from './user.model';
 
 /**
@@ -45,8 +45,8 @@ export class PetPostModel extends BaseEntity {
    @PrimaryGeneratedColumn('uuid')
    id: string
 
-   @ManyToOne(() => UserModel, (userModel) => userModel.petPostModel)
-   userModel: UserModel
+   @Column('uuid', { nullable: false })
+   user_id: string
 
    @Column('varchar', { length: 255, nullable: false })
    pet_name: string
@@ -65,5 +65,9 @@ export class PetPostModel extends BaseEntity {
 
    @CreateDateColumn()
    created_at: Date
+
+   @ManyToOne(() => UserModel, (user) => user.petPosts, { nullable: false })
+   @JoinColumn({ name: 'user_id' })
+   userModel: UserModel
 
 }
