@@ -1,5 +1,5 @@
 import express, { Router } from "express";
-
+import cookieParser from "cookie-parser";
 /**
  * interface that defines the options for starting the server.
 */
@@ -26,7 +26,7 @@ export class Server {
 
     constructor(options: Options) {
         this.port = options.port,
-        this.routes = options.routes
+            this.routes = options.routes
     }
 
     /**
@@ -55,6 +55,8 @@ export class Server {
         this.app.use(express.json());
 
         this.app.use(express.urlencoded({ extended: true }));
+
+        this.app.use(cookieParser());
 
         this.app.use(this.routes);
 

@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { UserController } from "./controller";
+import { AuthAccess } from "../common";
 import {
     FinderUsersService,
     EliminatorUserService,
@@ -8,6 +9,7 @@ import {
     RegisterUserService,
     UpdaterUserService
 } from "./services";
+import { Rol } from "../../data";
 
 /**
  * This class contains all sup routes that user routes needs,
@@ -41,13 +43,15 @@ export class UserRoutes {
 
         // route.get('/auth-register/:token') //TODO: aqui seria bueno implementar el envio de email para practicar.
 
-        route.get('/', userController.allUsers);
+        route.use(AuthAccess.protect)
+
+        route.get('/', AuthAccess.restrictTo(Rol.admin), userController.allUsers);
 
         route.get('/:id', userController.oneUser);
 
-        route.patch('/:id', userController.updateUser);
+        route.patch('/:id', AuthAccess.restrictTo(Rol.admin, Rol.user), userController.updateUser);
 
-        route.delete('/:id', userController.deleteUser);
+        route.delete('/:id', AuthAccess.restrictTo(Rol.admin), userController.deleteUser);
 
         return route;
 
