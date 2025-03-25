@@ -42,20 +42,17 @@ export class PetPostRoutes {
         );
         route.use(AuthAccess.protect);
 
-        route.use(AuthAccess.passOnlyFor(Rol.admin, Rol.user));
-        route.get('/', petController.getPetPosts);
-        route.get('/:id', petController.getOnePetPost);
+        route.post('/', AuthAccess.passOnlyFor(Rol.user), petController.getCreatorPetPost);
 
-        route.use(AuthAccess.passOnlyCreator(Rol.admin));
-        route.patch('/:id', petController.getUpdatePetPost);
-        route.delete('/:id', petController.getDeletePetPost);
+        route.get('/', AuthAccess.passOnlyFor(Rol.admin, Rol.user), petController.getPetPosts);
+        route.get('/:id', AuthAccess.passOnlyFor(Rol.admin, Rol.user), petController.getOnePetPost);
 
+        route.patch('/:id', AuthAccess.passOnlyCreator(Rol.admin), petController.getUpdatePetPost);
+        route.delete('/:id', AuthAccess.passOnlyCreator(Rol.admin), petController.getDeletePetPost);
 
         route.patch('/:id/reject', AuthAccess.passOnlyFor(Rol.admin), petController.getRejectToPost);
         route.patch('/:id/approve', AuthAccess.passOnlyFor(Rol.admin), petController.getApproveToPost);
 
-        route.use(AuthAccess.passOnlyFor(Rol.user));
-        route.post('/', petController.getCreatorPetPost);
 
         return route;
 

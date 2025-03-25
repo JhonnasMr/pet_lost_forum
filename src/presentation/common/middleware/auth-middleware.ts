@@ -86,20 +86,16 @@ export class AuthAccess {
                     }
                 })
 
-                if (!post) {
+                if (post) return next();
 
-                    if (role.includes(user[0].rol)) {
-                        return next();
-                    }
+                if (role.includes(user[0].rol)) return next();
 
-                    return res.status(404).json({
-                        message: 'Post not found or Unauthorized!'
-                    })
 
-                }
+                return res.status(401).json({
+                    message: 'You are not authorizated to access this route'
+                })
 
                 // 4.- si es asi lo dejamos pasar con el metodo next();
-                next();
 
             } catch (error) {
                 return res.status(500).json({
