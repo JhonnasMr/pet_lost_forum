@@ -38,20 +38,20 @@ export class UserRoutes {
         const route = Router();
 
         route.post('/login', userController.loginUser);
-
         route.post('/register', userController.registerUser);
 
         // route.get('/auth-register/:token') //TODO: aqui seria bueno implementar el envio de email para practicar.
 
         route.use(AuthAccess.protect)
 
-        route.get('/', AuthAccess.restrictTo(Rol.admin), userController.allUsers);
-
+        route.use(AuthAccess.passOnlyFor(Rol.admin, Rol.user));
+        route.patch('/:id', userController.updateUser);
         route.get('/:id', userController.oneUser);
 
-        route.patch('/:id', AuthAccess.restrictTo(Rol.admin, Rol.user), userController.updateUser);
 
-        route.delete('/:id', AuthAccess.restrictTo(Rol.admin), userController.deleteUser);
+        route.use(AuthAccess.passOnlyFor(Rol.admin));
+        route.get('/', userController.allUsers);
+        route.delete('/:id', userController.deleteUser);
 
         return route;
 

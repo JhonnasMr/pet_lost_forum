@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { JWTadaptter } from "../../../config";
-import { Rol, UserModel } from "../../../data";
+import { PetPostModel, Rol, UserModel } from "../../../data";
 
 
 export class AuthAccess {
@@ -53,12 +53,12 @@ export class AuthAccess {
         }
 
     }
-
-    static restrictTo(...role: Rol[]) {
+    //Analogia : si el rol del usuario esta en mi lista, puede pasar
+    static passOnlyFor(...role: Rol[]) {
         return (req: Request, res: Response, next: NextFunction) => {
             // 1.- sacar el rol del usuario en req.body 
             const userRol = req.body.session;
-            // console.log(userRol)
+
             // 2.- verificar si el usuario es del rol correspondiente para el endpoint
             if (!role.includes(userRol[0].rol)) {
                 return res.status(401).json({
@@ -66,6 +66,47 @@ export class AuthAccess {
                 })
             }
             next();
+        }
+    }
+    //Analogia : si el rol del usuario esta en mi lista o es el creador, puede pasar
+    static passOnlyCreator(...role: Rol[]) {
+        return async (req: Request, res: Response, next: NextFunction) => {
+
+            // 1.- obtengo la session actual y obtengo el parametro ID del post que se quiere modificar
+            const user = req.body.session;
+            const postID = req.params.id;
+
+            // 2.- busco el post que se quiere modificar y verifico si el user_id es el de la session o es Rol.admin.
+            try {
+
+                const post = await PetPostModel.findOne({
+                    where: {
+                        id: postID,
+                        user_id: user[0].id
+                    }
+                })
+
+                if (!post) {
+
+                    if (role.includes(user[0].rol)) {
+                        return next();
+                    }
+
+                    return res.status(404).json({
+                        message: 'Post not found or Unauthorized!'
+                    })
+
+                }
+
+                // 4.- si es asi lo dejamos pasar con el metodo next();
+                next();
+
+            } catch (error) {
+                return res.status(500).json({
+                    message: "something went very wrong!"
+                })
+            }
+
         }
     }
 
