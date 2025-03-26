@@ -1,13 +1,31 @@
+import { PetPostModel, PetPostStatus } from "../../../data";
 import { CustomError } from "../../../domain";
 
 export class ApproveToPostService {
     async execute(id: string) {
+
+        const post = await PetPostModel.findOne({
+            where: {
+                id: id,
+                status: PetPostStatus.pending
+            }
+        })
+
+        if (!post) {
+            throw CustomError.notFound('post not found!');
+        }
+
+        post.status = PetPostStatus.approve;
+
         try {
 
-            return 'Your post was approve!'
+            await post.save();
+            return 'Your post was approve!';
 
         } catch (error) {
-            throw new CustomError('unauthorized', 401);
+
+            throw CustomError.internalServer('something went wrong!');
+
         }
     }
 }

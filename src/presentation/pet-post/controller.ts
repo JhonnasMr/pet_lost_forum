@@ -133,13 +133,12 @@ export class PetPostController {
     }
 
     getApproveToPost = (req: Request, res: Response) => {
-        //TODO: aqui falta hacer la aprobacion
-        const paramsID = req.params.id;
-        this.approveToPostService.execute(paramsID)
+        const { id } = req.params;
+        this.approveToPostService
+            .execute(id)
             .then(data => {
                 return res.status(200).json({
-                    message: 'request fromm controller getApproveToPost id: ' + paramsID,
-                    data: data
+                    message: data
                 });
             })
             .catch((err) => {
@@ -148,13 +147,12 @@ export class PetPostController {
     }
 
     getRejectToPost = (req: Request, res: Response) => {
-        //TODO: aqui falta hacer la aprobacion
-        const paramsID = req.params.id;
-        this.rejectApproveToPostService.execute(paramsID)
+        const { id } = req.params;
+        this.rejectApproveToPostService
+            .execute(id)
             .then(data => {
                 return res.status(200).json({
-                    message: 'request fromm controller getRejectToPost id: ' + paramsID,
-                    data: data
+                    message: data
                 });
             })
             .catch((err) => {
